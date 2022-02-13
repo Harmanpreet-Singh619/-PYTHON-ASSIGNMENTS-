@@ -30,71 +30,96 @@ if len(user_input) == 0:
     print("No word or sentence found.")
 else:
     print("Number of each word/character in string is:" ,count_dict , "\n")
+
+###############################################################################################
+
 ##  QUESTION->2 
 print("\t\t\t Question 2 \n\n")
 
-# Data required by the user
-date = int(input("Enter the date: "))
-month = int(input("Enter the month: "))
-year = int(input("Enter the year: "))
-print()
 
-# Calculation of the next date
-if (1 <= month <= 12) and (1 <= date <= 31) and (1800 <= year <= 2025):
-    
-# Data validity check and calculating next date for 31 days months
-
-    if month in (1,3,5,7,8,10):
-        if date < 31:
-            date += 1
-        else:
-            date = 1
-            month += 1
-
-# Calculating next date for 30 days months
-    elif month in (4,6,9,11):
-        if date < 30:
-            date += 1
-        else:
-            date = 1
-            month += 1
-
-# Special case of february(28 days)
-    elif month == 2:
-
-# Leap year to be dealt separately, as 1 day is extra
-        if year % 4 == 0:
-            if date < 29:
-                date += 1
-            else:
-                date = 1
-                month += 1
-        else:
-            if date < 28:
-                date += 1
-            else:
-                date = 1
-                month += 1
-
-# Next date for december (new year starts after 31st)
+print("Enter a date to get the following date .\n")
+# getting to know about leap yr function used
+def leapyear(x):
+    #for leap year this condition must be True
+    if (x%400)==0 or ((x%100!=0) and (x%4==0)):
+        return True
     else:
-        if date < 31:
-            date += 1
-        else:
-            date = 1
-            month = 1
-            year += 1
-
-# Solution to the next date 
-    if date == 1 and month == 1 and year == 2026:
-        print("Date is out of range.")
-    else:
-        print(f"Next day is: {date}/{month}/{year}")
+        return False
+#Input in the following order- DD/MM/YYYY
+day=int(input("Enter Day (1-31):"))
+month=int(input("Enter Month (1-12):"))
+year=int(input("Enter Year (1800-2025):"))
+# Now as we know, some dates are not valid acc. to calendar so condition1
+if day<1 or day>31 or month<1 or month>12 or year<1800 or year>2025:
+    condition1=False
 else:
-# If date is invalid
-    print("Invalid Date.")
+    condition1=True
 
+#condition2 for day being not in that particular month
+month_31 = [1, 3, 5, 7, 9, 11]  # Months with 31 days
+month_30 = [4, 6, 8, 10, 12]    # Months with 30 days
+#for day entered 31 not present in that month
+c1a= day==31 and (month in month_30)
+#for day entered greater than 29 in month february i.e 2
+c1b= day>29  and month==2
+#for day entered greater than 28 in february in non leapyear
+c1c= day==29 and (not leapyear(year)) and month==2
+if c1a or c1b or c1c :
+    condition2=False
+else:
+    condition2=True
+#printing error when date entered is not correct
+if c1a:
+    print(f"\nError\n{day} day can't be in month {month}")
+elif c1b:
+    print(f"\nError\n{day} day can't be in month {month}")
+elif c1c:
+    print(f"\nError\n{day} day can't be in month {month} as the year {year} in not leapyear")
+elif condition1==False:
+    print(f"\nError\nPlease enter date in range day[1-31], month[1-12], year[1800-2025] ")
 
+#Code when date entered is correct
+if condition1==True and condition2==True :
+    month_31 = [1, 3, 5, 7, 9, 11]  #List containing month with 31 days
+    month_30 = [4, 6, 8, 10, 12]    #List containing month with 30 days
+    #For month with 31 days
+    if (month in month_31) == True:
+        if day == 31:
+            day = 1
+            month = month + 1
+        elif 1 <= day <= 30:
+            day = day + 1
+    #For month with 30 days
+    elif (month in month_30) == True:
+        if day == 30 and month == 12:
+            day = 1
+            month = 1
+            year = year + 1
+        elif day == 30 and month != 12:
+            day = 1
+            month = month + 1
+        elif 1 <= day <= 29:
+            day = day + 1
+    #for february month i.e. month 2
+    elif month == 2:
+        # If year is leap year
+        if leapyear(year) == True:
+            if day == 29:
+                day = 1
+                month = month + 1
+            elif 1 <= day <= 28:
+                day = day + 1
+        # If year is not leap year
+        elif leapyear(year) == False:
+            if day == 28:
+                day = 1
+                month = month + 1
+            elif 1 <= day <= 27:
+                day = day + 1
+    # Printing Next date
+    print(f"\nNext Date in format Day/Month/Year is: {day}/{month}/{year}")
+    
+############################################################################################    
 
 ## QUESTION->3
 print("\n\t\t\t Question 3 \n")
@@ -118,6 +143,8 @@ for num in given_list:
 
 # Solution printed 
 print(output_list)
+
+#################################################################################
 
 ##  QUESTION->4
 print("\n\t\t\t Question 4 \n\n")
@@ -150,6 +177,8 @@ else:
 # Printing invalid grade
     print("grade is Invalid.")
     
+########################################################################################    
+    
 ##  QUESTION->5
 print("\n\t\t\t Question 5 \n\n")
 print("\nQ.5")
@@ -173,6 +202,7 @@ while k <= 6:
     print()  # changing line using print()
     k = k + 1
 
+###############################################################################################
     
 ##  QUESTION->6
 print("\n\t\t\t Question 6 \n")
@@ -238,6 +268,8 @@ enter_sid = int(input("Enter SID to get name of student:"))
 output_name = str(dic.get(enter_sid))
 # printing name with key sid
 print(f"Name of student with SID {enter_sid} is {output_name}.")
+
+#####################################################################################
 
 ##  QUESTION->7
 print("\n\t\t\t Question 7 \n\n")
