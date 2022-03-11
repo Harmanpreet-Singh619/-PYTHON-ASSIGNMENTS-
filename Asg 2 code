@@ -96,7 +96,7 @@ if b > a:
         highest_number = c
 
 
-print(f"Highest no. = {highest_number}")
+print('Highest no. is - ', highest_number)
 
 print("\n")
 
